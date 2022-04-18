@@ -26,6 +26,8 @@ public class ApiTests {
                 .get("/api/users?page=2")
                 .then()
                 .statusCode(SC_OK)
+                .log()
+                .all()
                 .body("data.id[1]", is(8),
                         "data.email[1]", is("lindsay.ferguson@reqres.in"),
                         "data.first_name[1]", is("Lindsay"),
@@ -43,6 +45,8 @@ public class ApiTests {
                 .post("/api/users")
                 .then()
                 .statusCode(SC_CREATED)
+                .log()
+                .all()
                 .body("name", is("morpheus"),
                         "job", is("leader"));
     }
@@ -54,10 +58,16 @@ public class ApiTests {
         given()
                 .contentType(JSON)
                 .body(data)
+                .log()
+                .all()
                 .when()
                 .put("/api/users/2")
                 .then()
+                .log()
+                .all()
                 .statusCode(SC_OK)
+                .log()
+                .all()
                 .body("name", is("morpheus"),
                         "job", is("zion resident"));
     }
@@ -68,10 +78,14 @@ public class ApiTests {
         given()
                 .contentType(JSON)
                 .body(data)
+                .log()
+                .all()
                 .when()
                 .post("/api/register")
                 .then()
                 .statusCode(SC_BAD_REQUEST)
+                .log()
+                .all()
                 .body("error", is("Missing password"));
     }
 
@@ -81,11 +95,16 @@ public class ApiTests {
         given()
                 .contentType(JSON)
                 .body(data)
+                .log()
+                .all()
                 .when()
                 .post("/api/register")
                 .then()
                 .statusCode(SC_OK)
-                .body("error", is("Missing password"));
+                .log()
+                .all()
+                .body("id", is(4),
+                        "token", is("QpwL5tke4Pnpja7X4"));
     }
 
 }
